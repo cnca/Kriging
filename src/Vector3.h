@@ -1,9 +1,8 @@
-/*
- * Vector3.h
- *
- *  Created on: May 19, 2015
- *      Author: rodolfo
- */
+// Original File: Vector3.h
+// Author: Rodolfo Mora Z.
+// Date: May 19, 2015
+// Purpose: Simple TriDimentional Vector Class
+// https://github.com/CNCA-CeNAT/MathLibCpp/blob/master/src/Vector3.h
 
 #ifndef VECTOR3_H_
 #define VECTOR3_H_

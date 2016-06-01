@@ -1,5 +1,3 @@
-#ifndef MATRIX_CXX
-#define MATRIX_CXX
 // Original File: Matrix.cxx
 // Author: Jharrod LaFon
 // Date: Spring 2011
@@ -9,6 +7,9 @@
 // Modified by: Rodolfo Mora
 // Date: February 2015
 // Purpose: Parallel implementation of Matrix Multiplication and Matrix Invertion algorithms
+
+#ifndef MATRIX_CXX
+#define MATRIX_CXX
 
 #include<cstdlib>
 #include<cmath>
