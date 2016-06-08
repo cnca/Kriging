@@ -7,17 +7,18 @@
 // Modified by: Rodolfo Mora
 // Date: February 2015
 // Purpose: Parallel implementation of Matrix Multiplication and Matrix Invertion algorithms
+// https://github.com/CNCA-CeNAT/kriging/blob/master/src/Matrix.h
 
 #ifndef MATRIX_CXX
 #define MATRIX_CXX
 
-#include<cstdlib>
-#include<cmath>
-#include<cassert>
-#include<iostream>
-#include<iomanip>
-#include<vector>
-#include<stdexcept>
+#include <cstdlib>
+#include <cmath>
+#include <cassert>
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <stdexcept>
 
 using std::cout;
 using std::endl;

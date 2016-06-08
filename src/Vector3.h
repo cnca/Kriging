@@ -2,16 +2,16 @@
 // Author: Rodolfo Mora Z.
 // Date: May 19, 2015
 // Purpose: Simple TriDimentional Vector Class
-// https://github.com/CNCA-CeNAT/MathLibCpp/blob/master/src/Vector3.h
+// https://github.com/CNCA-CeNAT/kriging/blob/master/src/Vector3.h
 
 #ifndef VECTOR3_H_
 #define VECTOR3_H_
 
-#include<cstdlib>
-#include<cmath>
-#include<cassert>
-#include<string>
-#include<sstream>
+#include <cstdlib>
+#include <cmath>
+#include <cassert>
+#include <string>
+#include <sstream>
 
 using std::cout;
 using std::endl;
