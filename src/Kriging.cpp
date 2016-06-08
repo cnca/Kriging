@@ -67,13 +67,14 @@ double** new2DArray(int N,int M)
 	return A;
 }
 
-/** Semivariogram Model based on http://spatial-analyst.net/ILWIS/htm/ilwisapp/sec/semivar_models_sec.htm
-  * Variogram Model: Spherical.
-  * H distance between points to covariate
-  * C0 nugget:
-  * CX sill: C0+C
-  * A range:
-  */
+/**
+ * @brief Spherical Semivariogram Model based on http://spatial-analyst.net/ILWIS/htm/ilwisapp/sec/semivar_models_sec.htm
+ * @param H distance between points to covariate
+ * @param C0 nugget
+ * @param CX sill: C0+C
+ * @param A range
+ * @return The output of the semivariogram determines how much impact will have the sample in the stimation of the predictants value
+ */
 double sphericalVariogram(double H, double C0, double CX, double A)
 {
 	if(H > A)
@@ -86,11 +87,27 @@ double sphericalVariogram(double H, double C0, double CX, double A)
 	}
 }
 
+/**
+ * @brief Exponential Semivariogram Model based on http://spatial-analyst.net/ILWIS/htm/ilwisapp/sec/semivar_models_sec.htm
+ * @param H distance between points to covariate
+ * @param C0 nugget
+ * @param CX sill: C0+C
+ * @param A range
+ * @return The output of the semivariogram determines how much impact will have the sample in the stimation of the predictants value
+ */
 double exponentialVariogram(double H, double C0, double CX, double A)
 {
 	return C0 + ((CX-C0) * (1-exp((-H/A))));
 }
 
+/**
+ * @brief Gaussian Semivariogram Model based on http://spatial-analyst.net/ILWIS/htm/ilwisapp/sec/semivar_models_sec.htm
+ * @param H distance between points to covariate
+ * @param C0 nugget
+ * @param CX sill: C0+C
+ * @param A range
+ * @return The output of the semivariogram determines how much impact will have the sample in the stimation of the predictants value
+ */
 double gaussianVariogram(double H, double C0, double CX, double A)
 {
 	double e = (H/A);
@@ -98,18 +115,42 @@ double gaussianVariogram(double H, double C0, double CX, double A)
 	return C0 + ((CX-C0) * (1-exp(-e)));
 }
 
+/**
+ * @brief Wave Semivariogram Model based on http://spatial-analyst.net/ILWIS/htm/ilwisapp/sec/semivar_models_sec.htm
+ * @param H distance between points to covariate
+ * @param C0 nugget
+ * @param CX sill: C0+C
+ * @param A range
+ * @return The output of the semivariogram determines how much impact will have the sample in the stimation of the predictants value
+ */
 double waveVariogram(double H, double C0, double CX, double A)
 {
 	double e = H/A;
 	return C0 + ((CX-C0) * (1-(sin(e)/e)));
 }
 
+/**
+ * @brief Rational Quadratic Semivariogram Model based on http://spatial-analyst.net/ILWIS/htm/ilwisapp/sec/semivar_models_sec.htm
+ * @param H distance between points to covariate
+ * @param C0 nugget
+ * @param CX sill: C0+C
+ * @param A range
+ * @return The output of the semivariogram determines how much impact will have the sample in the stimation of the predictants value
+ */
 double rationalQuadraticVariogram(double H, double C0, double CX, double A)
 {
 	double e = (H*H)/(A*A);
 	return C0 + ((CX-C0) * (e/(1+e)));
 }
 
+/**
+ * @brief Circular Semivariogram Model based on http://spatial-analyst.net/ILWIS/htm/ilwisapp/sec/semivar_models_sec.htm
+ * @param H distance between points to covariate
+ * @param C0 nugget
+ * @param CX sill: C0+C
+ * @param A range
+ * @return The output of the semivariogram determines how much impact will have the sample in the stimation of the predictants value
+ */
 double circularVariogram(double H, double C0, double CX, double A)
 {
 	if(H > A)
@@ -125,14 +166,27 @@ double circularVariogram(double H, double C0, double CX, double A)
 	}
 }
 
-/** Calculate the distance between the members of a block of xyz points (B) to the members of another block of xyz points (A) based on their planar xy coordinates
-  * Store their result in D
+/** 
   * A, B arrays of points
   *	A/B[i] is the form of {x,y,z}
   *	z might be unknown
   * startA/startB is the first row to calculate, it is assumed that start >= 0
   * endA/endB is the last row to calculate, it is assumed that endA/endB < sizeA/sizeB,
   */
+  
+/**
+ * @brief Calculate the distance between the members of a block of xyz points (B) to the members of another block of xyz points (A) based on their planar xy coordinates
+ * @param A sample points in the form of {x,y,z}
+ * @param B predictant points in the form of {x,y,z}
+ * @param M size of A
+ * @param N size of B
+ * @param startA first row to calculate, it is assumed that startA >= 0
+ * @param endA last row to calculate, it is assumed that endA < M
+ * @param startB first row to calculate, it is assumed that startB >= 0
+ * @param endB last row to calculate, it is assumed that endB < N
+ * @param v semivariogram model to apply
+ * @return matrix D with the semivariogram outputs for each pair of points (A,B)
+ */
 matrix calculateVariogram(vector3 A[], vector3 B[], int M, int N, int startA, int endA, int startB, int endB, VariogramModel v)
 {
 	matrix D = matrix(M,N);
@@ -170,6 +224,7 @@ matrix calculateVariogram(vector3 A[], vector3 B[], int M, int N, int startA, in
 	return D;
 }
 
+/* ?? */
 matrix calculateVariogram(vector3 A, vector3 B[], int M, matrix & D, VariogramModel v)
 {
 	for(int b = 0; b < M; ++b)
@@ -204,15 +259,16 @@ matrix calculateVariogram(vector3 A, vector3 B[], int M, matrix & D, VariogramMo
 }
 
 /**
-  *
-  */
+ * @brief Print the time since the start of the run with a flag message
+ * @param message The flag message to print along with the time passed.
+ */
 void printTime(string message)
 {
 	float lap = float(clock () - start) /  CLOCKS_PER_SEC;
 	cout << message << ": " << lap << " Seconds" << endl;
 }
 
-/** Calculate the kriging interpolation for a given block of known points given a target resolution
+/** 
   * Z list of known points
   * 	Z[i] is the form of {x,y,z}
   *	z is known for all instances in Z
@@ -222,6 +278,16 @@ void printTime(string message)
   * RX target horizontal resolution of the interpolated surface
   * RY target vertical resolution of the interpolated surface
   */
+  
+/**
+ * @brief Calculate the kriging interpolation for a given block of known points given a target resolution
+ * @param Z List of known points, the samples, each with the form {x,y,z}
+ * @param N size of Z
+ * @param RX target horizontal resolution of the interpolated surface
+ * @param RY target vertical resolution of the interpolated surface
+ * @param VAR semivariogram model to apply
+ * @return a Surface with the interpolated points in the target resolution
+ */
 Surface kriging(vector3 Z[], int N, double RX, double RY, VariogramModel VAR)
 {
 	start = clock();
@@ -307,8 +373,12 @@ Surface kriging(vector3 Z[], int N, double RX, double RY, VariogramModel VAR)
 }
 
 /**
-  *
-  */
+ * @brief Converts a file of points into a list of points using the class vector3 to represent them
+ * @param Filename name of the file to parse
+ * @param c Out parameter with the count of lines in the file
+ * @param e Out parameter with an error code from the parsing process
+ * @return A list of points in the form of {x,y,z} represented by vector3 objects
+ */
 vector3 * parseXYZFile(char * filename, int &c, int &e)
 {
  	ifstream file;
@@ -350,8 +420,11 @@ vector3 * parseXYZFile(char * filename, int &c, int &e)
 }
 
 /**
-  *
-  */
+ * @brief Write a list of points of the form {x,y,z} represented by vector3 objects to a text file.
+ * @param S List of points
+ * @param N Size of S
+ * @param filename Name of the output file
+ */
 void writeToFile(vector3 S[], int N, const char* filename)
 {
 	ofstream o;
@@ -363,6 +436,12 @@ void writeToFile(vector3 S[], int N, const char* filename)
 	o.close();
 }
 
+/**
+ * @brief Main method of the Kriging program, parses a file and calculates the missing points in the surface described by the target resolution
+ * @param argc argument count
+ * @param argv argument values, in order: filename [nugget sill range variogram resolutionX resolutionY]
+ * @return error code, 0 if no errors ocurred
+ */
 int main(int argc, char **argv)
 {
 	VariogramModel v;
@@ -371,11 +450,13 @@ int main(int argc, char **argv)
 	v.A = 25;
 	v.VAR = GAUSSIAN;
 
+	// Test if any arguments were sent, print usage otherwise
 	if(argc < 2)
 	{
-		printf("USAGE: Kriging xyz_file [nugget sill range variogram]\n");
+		printf("USAGE: Kriging xyz_file [nugget sill range variogram]\n"); //TODO add to parameters the target resolution values Rx and Ry
 		return 0;
 	}
+	// Check if nugget is sane and store, exit with error otherwise
 	if(argc > 2)
 	{
 		v.C0 = atof(argv[2]);
@@ -385,18 +466,22 @@ int main(int argc, char **argv)
 			return 1;
 		}
 	}
+	// Save Sill
 	if(argc > 3)
 	{
 		v.CX = atof(argv[3]);
 	}
+	// Save Range
 	if(argc > 4)
 	{
 		v.A = atof(argv[4]);
 	}
+	// Save Var
 	if(argc > 5)
 	{
 		v.VAR = atoi(argv[5]);
 	}
+	//TODO capture the target resolution for the final surface Rx and Ry
 
 	printf("FILENAME: %s\n", argv[1]);
 
@@ -417,6 +502,7 @@ int main(int argc, char **argv)
 
 	cout << c << endl;
 
+	//TODO send as parameter the target resolution Rx and Ry instead of 1 1
 	Surface S = kriging(Z, c, 1, 1, v);
 
 	stringstream ss;
