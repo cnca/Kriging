@@ -175,7 +175,7 @@ double circularVariogram(double H, double C0, double CX, double A)
   */
   
 /**
- * @brief Calculate the distance between the members of a block of xyz points (B) to the members of another block of xyz points (A) based on their planar xy coordinates
+ * @brief Calculate the mutual impact between the points of B and the points of A based on their planar xy coordinates
  * @param A sample points in the form of {x,y,z}
  * @param B predictant points in the form of {x,y,z}
  * @param M size of A
@@ -224,7 +224,15 @@ matrix calculateVariogram(vector3 A[], vector3 B[], int M, int N, int startA, in
 	return D;
 }
 
-/* ?? */
+/**
+ * @brief Calculate the impact impact between a single point A and a block of points B based on their planar xy coordinates  
+ * @param A the predictant point
+ * @param B the sample points
+ * @param M size of B
+ * @param D output matrix
+ * @param v variogram model
+ * @return a matrix of size 1xM with the variogram outputs of the model between A and every point in B.
+ */
 matrix calculateVariogram(vector3 A, vector3 B[], int M, matrix & D, VariogramModel v)
 {
 	for(int b = 0; b < M; ++b)
@@ -357,7 +365,7 @@ Surface kriging(vector3 Z[], int N, double RX, double RY, VariogramModel VAR)
 			std::cout << "\r" << prog - 1 << "% completed: ";
 			std::cout.flush();
 		}
-		//Calculate Variogram Model for first point
+		//Calculate Variogram Model for point i
 		calculateVariogram(S.S[i], Z, N, D, VAR);
 		matrix W = V.I->multiply(D);
 		S.S[i].z = 0;
