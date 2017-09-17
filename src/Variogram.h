@@ -41,7 +41,7 @@ double sphericalVariogram(double H, double C0, double CX, double A)
 	}
 	else
 	{
-		return C0 + ((CX-C0) * ((3*H)/(2*A))-(H*H*H)/(2*A*A*A));
+		return C0 + ((CX-C0) * ((3*H)/(2*A)-(H*H*H)/(2*A*A*A)));
 	}
 }
 
